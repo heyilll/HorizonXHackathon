@@ -1,0 +1,10 @@
+.main { 
+    overflow: auto;
+    min-height: 100vh;
+    padding-bottom: 60px; 
+} 
+
+html,
+body {
+    height: 100%;
+}

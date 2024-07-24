@@ -1,13 +1,13 @@
-import LLMCard from "./LLMCard";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react"; 
 import LLMService from "../services/llms.service.js";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import add from '../images/add3.svg'
+import LLMCard from "./LLMCard";
 
-function Catalog() { 
+function Search() {
+    const { name } = useParams();
     const [models, setModels] = useState([]); 
-    const [loading, setLoading] = useState(true); 
-    
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => { 
         const fetchModels = async () => {
             const data = await LLMService.getLLMsService(); 
@@ -17,7 +17,7 @@ function Catalog() {
 
         fetchModels();   
     }, []); 
-    
+
     if (loading) {
         return <div>Loading...</div>;
     }  
@@ -25,16 +25,14 @@ function Catalog() {
     return ( 
         <div className="container bg-white my-4" >
             <div className="row g-4 justify-content-between">
-                <h2 className="col-6">All LLMs</h2>
-                <Link to={`/addllm`} className="col-1"><button className=" btn btn-success"><img src={add} width={25} height={25} /></button></Link> 
+                <h2 className="col-6">Search</h2> 
             </div>
             
             <div className="row mt-4 g-4"> 
-                {models && models.length !== 0 && models.map((model) => (
-                    <LLMCard key={model._id} llm={model} />))} 
+                {models && models.length !== 0 && models.map((model) =>{if (model.name.toLowerCase().includes(name.toLowerCase())) return <LLMCard key={model._id} llm={model} /> } )} 
             </div> 
         </div>  
     );
 }
 
-export default Catalog;
+export default Search;

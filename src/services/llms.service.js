@@ -19,14 +19,9 @@ const getSpecificLLMService = async (id) => {
     }
 }
 
-const addLLMService = async ({ name, description, dungeon_master, created_by }) => {
+const addLLMService = async (data ) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/models/new`, { 
-            name: name,
-            description: description,
-            dungeon_master: dungeon_master,
-            created_by: created_by 
-        },  { headers: authHeader() });
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/models`, data,  { headers: authHeader() });
         return response;
     } catch (e) {
         return e;
@@ -44,7 +39,7 @@ const removeLLMService = async (id) => {
 
 const editLLMService = async (id, updateData) => { 
     try {
-        const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/models/${id}`, updateData, { headers: authHeader() });
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/models/${id}`, updateData, { headers: authHeader() });
         return response;
     } catch (e) {
         return e;

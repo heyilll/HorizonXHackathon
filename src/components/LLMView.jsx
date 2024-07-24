@@ -1,12 +1,13 @@
 import LLMService from "../services/llms.service.js";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import getDayName from "../services/datehelper.js";
 import { useState, useEffect } from "react";
 
 function LLMView( ) {
     const { id } = useParams();
     const [model, setModel] = useState([]); 
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     
     useEffect(() => { 
         const fetchModel = async () => {
@@ -18,12 +19,29 @@ function LLMView( ) {
         fetchModel();   
     }, []); 
     
+    const handleRemove = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await LLMService.removeLLMService(id);
+            console.log(res);
+
+            if (res.status === 204) {
+                navigate("/");
+                console.log(`Removed successfully`);
+            } else {
+                console.log("Removal failed");
+            }
+            } catch (error) {
+                console.log(error);
+            }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }  
 
     return ( 
-        <div className="container my-4" > 
+        <div className="container my-4 " > 
             <h2>LLM Name: {model.name}</h2>
             <div className="card mt-4">
                 <div className="card-body">
@@ -49,6 +67,9 @@ function LLMView( ) {
                         <dt className="col-sm-3">Intended uses:</dt>
                         <dd className="col-sm-9">{model.intended_uses}</dd>
 
+                        <dt className="col-sm-3">Prohibited uses:</dt>
+                        <dd className="col-sm-9">{model.prohibited_uses}</dd>
+
                         <dt className="col-sm-3">Quality control:</dt>
                         <dd className="col-sm-9">{model.quality_control}</dd>
 
@@ -65,6 +86,10 @@ function LLMView( ) {
                         <dd className="col-sm-9">{model.license}</dd>
                     </dl>
                 </div>
+            </div>
+            <div className=" justify-content-between">
+                <Link to={`/edit/${id}`} className=" "><button className="col-3 btn btn-warning">Edit</button></Link>
+                <button className="col-3 btn btn-danger float-end" onClick={handleRemove}>Delete</button> 
             </div>
         </div>  
     );

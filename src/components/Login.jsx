@@ -15,10 +15,10 @@ function Login() {
         e.preventDefault(); 
         setErrorMessage(false);
         try {
-            const res = await accountService.loginService({ email: email, password: password });
-            
+            const res = await accountService.loginService({ username: email, password: password }); 
             if (res.status === 200) { 
                 navigate(`/`);
+                window.location.reload();
             } else {
                 console.error("Login failed");
                 setErrorMessage(true);
@@ -34,7 +34,7 @@ function Login() {
 
     const sendLogout = async (e) => { 
         e.preventDefault(); 
-        accService.logout();
+        accountService.logout();
         window.location.reload();
     }
 
@@ -43,7 +43,7 @@ function Login() {
             {currUser && (
                 <div className="user-status">
                   <p className="user-info">
-                    User is logged in with email: <span className="user-email">{currUser.email}</span>
+                    User is logged in  
                   </p>
                   <button className="logout-button" onClick={sendLogout}>
                     <span className="logout-icon">🚪</span>
@@ -60,11 +60,11 @@ function Login() {
           
                       <form onSubmit={sendLogin} method="post">
                         <div className="mb-3">
-                          <label className="form-label" htmlFor="email">Email</label>
+                          <label className="form-label" htmlFor="username">Username</label>
                           <div className="input-group">
                             <span className="input-group-text"><i className="fas fa-envelope"></i></span>
                             <input
-                              type="email"
+                              type="username"
                               className="form-control"
                               id="email"
                               name="email"

@@ -4,7 +4,7 @@ function Graph() {
     return ( 
         <div className="container bg-white my-4" >
             <div className="row g-4 justify-content-between">
-                <h2 className="col-6">Graph</h2> 
+                <h2 className="col-6">Matrix</h2> 
             </div>
             
             <div className="row mt-4 g-4"> 

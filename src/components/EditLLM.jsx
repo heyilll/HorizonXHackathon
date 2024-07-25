@@ -49,7 +49,7 @@ function EditLLM() {
         e.preventDefault();
         try {
             const res = await LLMService.editLLMService(id, { _id: id, ...llm });
-            
+            console.log(res)
             if (res.status === 204) {
                 navigate(`/llm/${id}`);
                 console.log("Updated successfully");
